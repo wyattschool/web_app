@@ -13,9 +13,45 @@ public class HelloController : Controller
         _logger = logger;
     }
 
-    public IActionResult Index()
+    [HttpGet]
+    public IActionResult Greeter()
     {
-        return Content("<h1>Hello World</h1>", "text/html");
+        return View();
+    }
+
+    [Route("/Hello/Greeter")]
+    [HttpPost]
+    public IActionResult GreeterDisplay(string name = "Your name", string language = "")
+	{
+        string message = CreateMessage(name, language);
+        string html = "<h1>" + message + "</h1>";
+        return Content(html, "text /html");
+    }
+    public static string CreateMessage(string name, string language)
+    {
+        string message = "";
+        if (language == "English")
+            {
+                message = "Good day " + name;
+            }
+        if (language == "Spanish")
+            {
+                message = "Buenos dias " + name;
+                //Using an i with an accent mark did not produce the proper result.
+            }
+        if (language == "German")
+        {
+            message = "Guten Tag " + name;
+        }
+        if (language == "French")
+        {
+            message = "Bonjour " + name;
+        }
+        if (language == "Italian")
+        {
+            message = "Buona giornata " + name;
+        }
+        return message;
     }
 
     public IActionResult Goodbye()
